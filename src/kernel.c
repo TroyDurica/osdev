@@ -48,6 +48,7 @@ void kernel_main(multiboot_header_t *mboot_ptr, uint32_t esp)
 	initialise_paging();
 	init_pit(1000);
 	initialise_tasking();
+	
 	initialise_syscalls();
 
 	for (int i = 0; i < 80; i++) printk("=");
