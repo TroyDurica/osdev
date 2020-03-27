@@ -1,0 +1,532 @@
+
+Allocating common symbols
+Common symbol       size              file
+
+idt_ptr             0x6               idt.o
+terminal_color      0x1               terminal.o
+packet              0x2               keyboard.o
+cmdbuf              0x4               cli.o
+nroot_nodes         0x4               initrd.o
+initrd_dev          0x4               initrd.o
+freq                0x4               pit.o
+gdt_entries         0x30              gdt.o
+nframes             0x4               page.o
+tss_entry           0x68              gdt.o
+initial_esp         0x4               kernel.o
+ready_queue         0x4               task.o
+terminal_framebuffer
+                    0x4               terminal.o
+dirent              0x84              initrd.o
+file_headers        0x4               initrd.o
+idt_entries         0x800             idt.o
+terminal_column     0x4               terminal.o
+current_task        0x4               task.o
+data                0x1               keyboard.o
+gdt_ptr             0x6               gdt.o
+dir                 0x4               cli.o
+argbuf              0x4               cli.o
+interrupt_handlers  0x400             isr.o
+initrd_root         0x4               initrd.o
+frames              0x4               page.o
+terminal_row        0x4               terminal.o
+root_nodes          0x4               initrd.o
+initrd_header       0x4               initrd.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+LOAD /Users/troydurica/opt/cross/lib/gcc/i686-elf/9.2.0/libgcc.a
+LOAD boot.o
+LOAD kernel.o
+LOAD cli.o
+LOAD keyboard.o
+LOAD task.o
+LOAD syscall.o
+LOAD ordered_array.o
+LOAD initrd.o
+LOAD vfs.o
+LOAD stack.o
+LOAD kheap.o
+LOAD gdt.o
+LOAD page.o
+LOAD pit.o
+LOAD isr.o
+LOAD idt.o
+LOAD log.o
+LOAD string.o
+LOAD terminal.o
+LOAD asmdeps.o
+                0x0000000000100000                . = 0x100000
+                0x0000000000100000                kernel_start = .
+
+.text           0x0000000000100000     0x530d
+ *(.multiboot)
+ .multiboot     0x0000000000100000        0xc boot.o
+ *(.text)
+ .text          0x000000000010000c       0x52 boot.o
+                0x000000000010000c                loadPageDirectory
+                0x000000000010001a                enablePaging
+                0x000000000010002c                _start
+ *fill*         0x000000000010005e        0x2 
+ .text          0x0000000000100060      0x11a kernel.o
+                0x0000000000100060                kernel_main
+ *fill*         0x000000000010017a        0x6 
+ .text          0x0000000000100180      0x391 cli.o
+                0x0000000000100180                handle_command
+                0x0000000000100280                clear_cmd
+                0x00000000001002b0                clear_arg
+                0x00000000001002e0                initialise_cli
+                0x0000000000100380                cli_send_packet
+ *fill*         0x0000000000100511        0xf 
+ .text          0x0000000000100520       0xb7 keyboard.o
+                0x0000000000100520                keyboard_callback
+                0x00000000001005c0                initialise_keyboard
+ *fill*         0x00000000001005d7        0x9 
+ .text          0x00000000001005e0      0x300 task.o
+                0x00000000001005e0                move_stack
+                0x00000000001006a0                initialise_tasking
+                0x0000000000100720                switch_task
+                0x00000000001007c0                fork
+                0x0000000000100890                getpid
+                0x00000000001008a0                switch_to_user_mode
+ .text          0x00000000001008e0       0xba syscall.o
+                0x0000000000100930                syscall_printk
+                0x0000000000100950                syscall_fork
+                0x0000000000100960                printf
+                0x0000000000100980                initialise_syscalls
+ *fill*         0x000000000010099a        0x6 
+ .text          0x00000000001009a0      0x25a ordered_array.o
+                0x00000000001009a0                standard_lessthan_predicate
+                0x00000000001009b0                create_ordered_array
+                0x0000000000100a00                place_ordered_array
+                0x0000000000100a40                destroy_ordered_array
+                0x0000000000100a60                insert_ordered_array
+                0x0000000000100b60                lookup_ordered_array
+                0x0000000000100bc0                remove_ordered_array
+ *fill*         0x0000000000100bfa        0x6 
+ .text          0x0000000000100c00      0x466 initrd.o
+                0x0000000000100db0                initialise_initrd
+ *fill*         0x0000000000101066        0xa 
+ .text          0x0000000000101070      0x2fe vfs.o
+                0x0000000000101070                read_fs
+                0x00000000001010a0                write_fs
+                0x00000000001010d0                open_fs
+                0x0000000000101100                close_fs
+                0x0000000000101130                readdir_fs
+                0x0000000000101170                finddir_fs
+                0x00000000001011b0                list_vfs
+ *fill*         0x000000000010136e        0x2 
+ .text          0x0000000000101370       0xdf stack.o
+                0x0000000000101370                stack_trace
+ *fill*         0x000000000010144f        0x1 
+ .text          0x0000000000101450      0x9f9 kheap.o
+                0x0000000000101470                print_heap
+                0x00000000001014c0                alloc
+                0x00000000001018a0                kmalloc_int
+                0x0000000000101950                kmalloc_a
+                0x0000000000101970                kmalloc_p
+                0x0000000000101990                kmalloc_ap
+                0x00000000001019b0                kmalloc
+                0x00000000001019d0                create_heap
+                0x0000000000101b20                free
+                0x0000000000101e30                kfree
+ *fill*         0x0000000000101e49        0x7 
+ .text          0x0000000000101e50      0x13d gdt.o
+                0x0000000000101e50                init_gdt
+                0x0000000000101f80                set_kernel_stack
+ *fill*         0x0000000000101f8d        0x3 
+ .text          0x0000000000101f90      0x701 page.o
+                0x0000000000101f90                page_fault
+                0x0000000000102240                alloc_frame
+                0x0000000000102270                free_frame
+                0x00000000001022b0                switch_page_directory
+                0x00000000001022e0                get_page
+                0x0000000000102370                clone_directory
+                0x00000000001024f0                initialise_paging
+ *fill*         0x0000000000102691        0xf 
+ .text          0x00000000001026a0       0xa8 pit.o
+                0x00000000001026a0                pit_callback
+                0x00000000001026c0                pit_wait
+                0x0000000000102700                init_pit
+ *fill*         0x0000000000102748        0x8 
+ .text          0x0000000000102750      0xe03 isr.o
+                0x0000000000102750                exc_divide_by_zero
+                0x00000000001027b0                exc_debug
+                0x0000000000102810                exc_non_maskable_interrupt
+                0x0000000000102870                exc_breakpoint
+                0x00000000001028d0                exc_into_detected_overflow
+                0x0000000000102930                exc_out_of_bounds
+                0x0000000000102990                exc_invalid_opcode
+                0x00000000001029f0                exc_no_coprocessor
+                0x0000000000102a50                exc_double_fault
+                0x0000000000102ab0                exc_coprocessor_segment_overrun
+                0x0000000000102b10                exc_invalid_tss
+                0x0000000000102b70                exc_segment_not_present
+                0x0000000000102bd0                exc_stack_fault
+                0x0000000000102c30                exc_general_protection_fault
+                0x0000000000102c90                exc_page_fault
+                0x0000000000102cf0                exc_unknown
+                0x0000000000102d50                exc_coprocessor_fault
+                0x0000000000102db0                exc_alignment_check
+                0x0000000000102e10                exc_machine_check
+                0x0000000000102e70                exc_reserved_1
+                0x0000000000102ed0                exc_reserved_2
+                0x0000000000102f30                exc_reserved_3
+                0x0000000000102f90                exc_reserved_4
+                0x0000000000102ff0                exc_reserved_5
+                0x0000000000103050                exc_reserved_6
+                0x00000000001030b0                exc_reserved_7
+                0x0000000000103110                exc_reserved_8
+                0x0000000000103170                exc_reserved_9
+                0x00000000001031d0                exc_reserved_10
+                0x0000000000103230                exc_reserved_11
+                0x0000000000103290                exc_reserved_12
+                0x00000000001032f0                isr_init
+                0x0000000000103440                register_interrupt_handler
+                0x0000000000103460                isr_handler
+                0x0000000000103510                irq_handler
+ *fill*         0x0000000000103553        0xd 
+ .text          0x0000000000103560      0x67f idt.o
+                0x0000000000103560                init_idt
+ *fill*         0x0000000000103bdf        0x1 
+ .text          0x0000000000103be0      0x648 log.o
+                0x0000000000103be0                vprintl_help
+                0x0000000000103bf0                do_printl
+                0x00000000001040c0                vprintl
+                0x00000000001040e0                printl
+                0x0000000000104100                log_int
+                0x0000000000104110                log
+                0x00000000001041a0                reg_dump
+ *fill*         0x0000000000104228        0x8 
+ .text          0x0000000000104230      0x35b string.o
+                0x0000000000104230                strcat
+                0x0000000000104280                itoa
+                0x0000000000104300                memcpy
+                0x0000000000104330                memmove
+                0x0000000000104390                memchr
+                0x00000000001043e0                memcmp
+                0x0000000000104450                memset
+                0x0000000000104480                strlen
+                0x00000000001044a0                strcpy
+                0x00000000001044e0                strcmp
+                0x0000000000104530                isdigit
+                0x0000000000104550                atoi
+ *fill*         0x000000000010458b        0x5 
+ .text          0x0000000000104590      0xaed terminal.o
+                0x0000000000104590                terminal_initialize
+                0x0000000000104640                terminal_setcolor
+                0x0000000000104650                terminal_getcolor
+                0x0000000000104660                terminal_clear
+                0x0000000000104740                terminal_setpos
+                0x0000000000104790                terminal_putentryat
+                0x0000000000104800                do_printk
+                0x0000000000104cf0                vprintk
+                0x0000000000104d10                printk
+                0x0000000000104d30                scroll
+                0x0000000000104dc0                terminal_putchar
+                0x0000000000104e60                terminal_write
+                0x0000000000104f20                vprintk_help
+ *fill*         0x000000000010507d        0x3 
+ .text          0x0000000000105080      0x28d asmdeps.o
+                0x0000000000105080                gdt_flush
+                0x000000000010509d                isr0
+                0x00000000001050a7                isr1
+                0x00000000001050b1                isr2
+                0x00000000001050bb                isr3
+                0x00000000001050c5                isr4
+                0x00000000001050cf                isr5
+                0x00000000001050d9                isr6
+                0x00000000001050e3                isr7
+                0x00000000001050ed                isr8
+                0x00000000001050f5                isr9
+                0x00000000001050ff                isr10
+                0x0000000000105107                isr11
+                0x000000000010510f                isr12
+                0x0000000000105117                isr13
+                0x000000000010511f                isr14
+                0x0000000000105127                isr15
+                0x0000000000105131                isr16
+                0x000000000010513b                isr17
+                0x0000000000105143                isr18
+                0x000000000010514d                isr19
+                0x0000000000105157                isr20
+                0x0000000000105161                isr21
+                0x000000000010516b                isr22
+                0x0000000000105175                isr23
+                0x000000000010517f                isr24
+                0x0000000000105189                isr25
+                0x0000000000105193                isr26
+                0x000000000010519d                isr27
+                0x00000000001051a7                isr28
+                0x00000000001051b1                isr29
+                0x00000000001051bb                isr30
+                0x00000000001051c3                isr31
+                0x00000000001051cd                irq0
+                0x00000000001051d7                irq1
+                0x00000000001051e1                irq2
+                0x00000000001051eb                irq3
+                0x00000000001051f5                irq4
+                0x00000000001051ff                irq5
+                0x0000000000105206                irq6
+                0x000000000010520d                irq7
+                0x0000000000105214                irq8
+                0x000000000010521b                irq9
+                0x0000000000105222                irq10
+                0x0000000000105229                irq11
+                0x0000000000105230                irq12
+                0x0000000000105237                irq13
+                0x000000000010523e                irq14
+                0x0000000000105245                irq15
+                0x000000000010524c                isr128
+                0x000000000010527d                idt_flush
+                0x00000000001052ae                copy_page_physical
+                0x00000000001052e6                read_eip
+                0x00000000001052e9                tss_flush
+                0x00000000001052f1                perform_task_switch
+
+.iplt           0x000000000010530d        0x0
+ .iplt          0x000000000010530d        0x0 boot.o
+
+.text.unlikely  0x000000000010530d        0xb
+ .text.unlikely
+                0x000000000010530d        0x7 vfs.o
+ .text.unlikely
+                0x0000000000105314        0x4 log.o
+
+.rodata         0x0000000000106000      0x110
+ *(.rodata)
+ .rodata        0x0000000000106000        0x8 syscall.o
+ .rodata        0x0000000000106008       0x84 log.o
+ .rodata        0x000000000010608c       0x84 terminal.o
+
+.rodata.str1.1  0x0000000000106110      0x50d
+ .rodata.str1.1
+                0x0000000000106110       0x4e kernel.o
+                                         0x50 (size before relaxing)
+ .rodata.str1.1
+                0x000000000010615e       0x12 cli.o
+                                         0x19 (size before relaxing)
+ .rodata.str1.1
+                0x0000000000106170       0x35 ordered_array.o
+                                         0x4a (size before relaxing)
+ .rodata.str1.1
+                0x00000000001061a5       0x25 initrd.o
+ .rodata.str1.1
+                0x00000000001061ca       0x3c vfs.o
+                                         0x41 (size before relaxing)
+ .rodata.str1.1
+                0x0000000000106206       0x40 stack.o
+ .rodata.str1.1
+                0x0000000000106246       0x87 kheap.o
+                                         0x9c (size before relaxing)
+ .rodata.str1.1
+                0x00000000001062cd       0x65 page.o
+                                         0x7c (size before relaxing)
+ .rodata.str1.1
+                0x0000000000106332       0x65 pit.o
+                                          0x1 (size before relaxing)
+ .rodata.str1.1
+                0x0000000000106332      0x287 isr.o
+                                        0x29c (size before relaxing)
+ .rodata.str1.1
+                0x00000000001065b9       0x4d log.o
+ .rodata.str1.1
+                0x0000000000106606       0x17 terminal.o
+
+.eh_frame       0x0000000000106620     0x1364
+ .eh_frame      0x0000000000106620       0x34 kernel.o
+ .eh_frame      0x0000000000106654       0xb4 cli.o
+                                         0xcc (size before relaxing)
+ .eh_frame      0x0000000000106708       0x48 keyboard.o
+                                         0x60 (size before relaxing)
+ .eh_frame      0x0000000000106750       0xf8 task.o
+                                        0x110 (size before relaxing)
+ .eh_frame      0x0000000000106848       0xa8 syscall.o
+                                         0xc0 (size before relaxing)
+ .eh_frame      0x00000000001068f0      0x124 ordered_array.o
+                                        0x13c (size before relaxing)
+ .eh_frame      0x0000000000106a14       0xc4 initrd.o
+                                         0xdc (size before relaxing)
+ .eh_frame      0x0000000000106ad8      0x158 vfs.o
+                                        0x170 (size before relaxing)
+ .eh_frame      0x0000000000106c30       0x30 stack.o
+                                         0x48 (size before relaxing)
+ .eh_frame      0x0000000000106c60      0x1d0 kheap.o
+                                        0x1e8 (size before relaxing)
+ .eh_frame      0x0000000000106e30       0x40 gdt.o
+                                         0x58 (size before relaxing)
+ .eh_frame      0x0000000000106e70      0x148 page.o
+                                        0x160 (size before relaxing)
+ .eh_frame      0x0000000000106fb8       0x68 pit.o
+                                         0x80 (size before relaxing)
+ .eh_frame      0x0000000000107020      0x404 isr.o
+                                        0x41c (size before relaxing)
+ .eh_frame      0x0000000000107424       0x30 idt.o
+                                         0x48 (size before relaxing)
+ .eh_frame      0x0000000000107454      0x118 log.o
+                                        0x154 (size before relaxing)
+ .eh_frame      0x000000000010756c      0x1e8 string.o
+                                        0x200 (size before relaxing)
+ .eh_frame      0x0000000000107754      0x230 terminal.o
+                                        0x248 (size before relaxing)
+
+.rodata.str1.4  0x0000000000107984      0x27f
+ .rodata.str1.4
+                0x0000000000107984       0x28 cli.o
+ .rodata.str1.4
+                0x00000000001079ac       0x26 stack.o
+ *fill*         0x00000000001079d2        0x2 
+ .rodata.str1.4
+                0x00000000001079d4       0xf9 kheap.o
+ *fill*         0x0000000000107acd        0x3 
+ .rodata.str1.4
+                0x0000000000107ad0       0xb4 isr.o
+ .rodata.str1.4
+                0x0000000000107b84       0x7f log.o
+
+.rel.dyn        0x0000000000107c04        0x0
+ .rel.got       0x0000000000107c04        0x0 boot.o
+ .rel.iplt      0x0000000000107c04        0x0 boot.o
+ .rel.text      0x0000000000107c04        0x0 boot.o
+ .rel.data      0x0000000000107c04        0x0 boot.o
+
+.data           0x0000000000108000      0x12c
+ *(.data)
+ .data          0x0000000000108000       0x1e boot.o
+ .data          0x000000000010801e        0x0 kernel.o
+ .data          0x000000000010801e        0x1 cli.o
+                0x000000000010801e                is_cmd
+ *fill*         0x000000000010801f        0x1 
+ .data          0x0000000000108020      0x100 keyboard.o
+                0x0000000000108020                kblayout_shift
+                0x00000000001080a0                kblayout
+ .data          0x0000000000108120        0x4 task.o
+                0x0000000000108120                next_pid
+ .data          0x0000000000108124        0x4 syscall.o
+                0x0000000000108124                num_syscalls
+ .data          0x0000000000108128        0x0 ordered_array.o
+ .data          0x0000000000108128        0x0 initrd.o
+ .data          0x0000000000108128        0x0 vfs.o
+ .data          0x0000000000108128        0x0 stack.o
+ .data          0x0000000000108128        0x4 kheap.o
+                0x0000000000108128                placement_address
+ .data          0x000000000010812c        0x0 gdt.o
+ .data          0x000000000010812c        0x0 page.o
+ .data          0x000000000010812c        0x0 pit.o
+ .data          0x000000000010812c        0x0 isr.o
+ .data          0x000000000010812c        0x0 idt.o
+ .data          0x000000000010812c        0x0 log.o
+ .data          0x000000000010812c        0x0 string.o
+ .data          0x000000000010812c        0x0 terminal.o
+
+.got            0x000000000010812c        0x0
+ .got           0x000000000010812c        0x0 boot.o
+
+.got.plt        0x000000000010812c        0x0
+ .got.plt       0x000000000010812c        0x0 boot.o
+
+.igot.plt       0x000000000010812c        0x0
+ .igot.plt      0x000000000010812c        0x0 boot.o
+
+.bss            0x0000000000109000     0x4de8
+ *(COMMON)
+ COMMON         0x0000000000109000        0x4 kernel.o
+                0x0000000000109000                initial_esp
+ COMMON         0x0000000000109004        0xc cli.o
+                0x0000000000109004                cmdbuf
+                0x0000000000109008                dir
+                0x000000000010900c                argbuf
+ COMMON         0x0000000000109010        0x3 keyboard.o
+                0x0000000000109010                packet
+                0x0000000000109012                data
+ *fill*         0x0000000000109013        0x1 
+ COMMON         0x0000000000109014        0x8 task.o
+                0x0000000000109014                ready_queue
+                0x0000000000109018                current_task
+ *fill*         0x000000000010901c        0x4 
+ COMMON         0x0000000000109020       0xb4 initrd.o
+                0x0000000000109020                nroot_nodes
+                0x0000000000109024                initrd_dev
+                0x0000000000109040                dirent
+                0x00000000001090c4                file_headers
+                0x00000000001090c8                initrd_root
+                0x00000000001090cc                root_nodes
+                0x00000000001090d0                initrd_header
+ *fill*         0x00000000001090d4        0xc 
+ COMMON         0x00000000001090e0       0xae gdt.o
+                0x00000000001090e0                gdt_entries
+                0x0000000000109120                tss_entry
+                0x0000000000109188                gdt_ptr
+ *fill*         0x000000000010918e        0x2 
+ COMMON         0x0000000000109190        0x8 page.o
+                0x0000000000109190                nframes
+                0x0000000000109194                frames
+ COMMON         0x0000000000109198        0x4 pit.o
+                0x0000000000109198                freq
+ *fill*         0x000000000010919c        0x4 
+ COMMON         0x00000000001091a0      0x400 isr.o
+                0x00000000001091a0                interrupt_handlers
+ COMMON         0x00000000001095a0      0x820 idt.o
+                0x00000000001095a0                idt_ptr
+                0x00000000001095c0                idt_entries
+ COMMON         0x0000000000109dc0       0x10 terminal.o
+                0x0000000000109dc0                terminal_color
+                0x0000000000109dc4                terminal_framebuffer
+                0x0000000000109dc8                terminal_column
+                0x0000000000109dcc                terminal_row
+ *(.bss)
+ .bss           0x0000000000109dd0     0x4000 boot.o
+ .bss           0x000000000010ddd0        0x0 kernel.o
+ .bss           0x000000000010ddd0        0x4 cli.o
+                0x000000000010ddd0                d_from_prompt
+                0x000000000010ddd1                initialised
+                0x000000000010ddd2                argidx
+                0x000000000010ddd3                cmdidx
+ .bss           0x000000000010ddd4        0x0 keyboard.o
+ .bss           0x000000000010ddd4        0x0 task.o
+ .bss           0x000000000010ddd4        0x0 syscall.o
+ .bss           0x000000000010ddd4        0x0 ordered_array.o
+ .bss           0x000000000010ddd4        0x0 initrd.o
+ .bss           0x000000000010ddd4        0x4 vfs.o
+                0x000000000010ddd4                fs_root
+ .bss           0x000000000010ddd8        0x0 stack.o
+ .bss           0x000000000010ddd8        0x4 kheap.o
+                0x000000000010ddd8                kheap
+ .bss           0x000000000010dddc        0x0 gdt.o
+ .bss           0x000000000010dddc        0x8 page.o
+                0x000000000010dddc                current_directory
+                0x000000000010dde0                kernel_directory
+ .bss           0x000000000010dde4        0x4 pit.o
+                0x000000000010dde4                timer_ticks
+ .bss           0x000000000010dde8        0x0 isr.o
+ .bss           0x000000000010dde8        0x0 idt.o
+ .bss           0x000000000010dde8        0x0 log.o
+ .bss           0x000000000010dde8        0x0 string.o
+ .bss           0x000000000010dde8        0x0 terminal.o
+                0x000000000010dde8                kernel_end = .
+OUTPUT(kernel.bin elf32-i386)
+
+.comment        0x0000000000000000       0x11
+ .comment       0x0000000000000000       0x11 kernel.o
+                                         0x12 (size before relaxing)
+ .comment       0x0000000000000011       0x12 cli.o
+ .comment       0x0000000000000011       0x12 keyboard.o
+ .comment       0x0000000000000011       0x12 task.o
+ .comment       0x0000000000000011       0x12 syscall.o
+ .comment       0x0000000000000011       0x12 ordered_array.o
+ .comment       0x0000000000000011       0x12 initrd.o
+ .comment       0x0000000000000011       0x12 vfs.o
+ .comment       0x0000000000000011       0x12 stack.o
+ .comment       0x0000000000000011       0x12 kheap.o
+ .comment       0x0000000000000011       0x12 gdt.o
+ .comment       0x0000000000000011       0x12 page.o
+ .comment       0x0000000000000011       0x12 pit.o
+ .comment       0x0000000000000011       0x12 isr.o
+ .comment       0x0000000000000011       0x12 idt.o
+ .comment       0x0000000000000011       0x12 log.o
+ .comment       0x0000000000000011       0x12 string.o
+ .comment       0x0000000000000011       0x12 terminal.o
