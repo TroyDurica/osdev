@@ -1,0 +1,10 @@
+megs: 32
+romimage: file=/usr/local/Cellar/bochs/2.6.9_2/share/bochs/BIOS-bochs-latest
+vgaromimage: file=/usr/local/Cellar/bochs/2.6.9_2/share/bochs/VGABIOS-elpin-2.40
+ata0-slave: type=cdrom,path=troyos.iso,status=inserted
+boot: cdrom
+log: bochs/bochsout.txt
+magic_break: enabled=1
+mouse: enabled=0
+clock: sync=realtime
+cpu: ips=1000000

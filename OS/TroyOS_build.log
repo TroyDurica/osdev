@@ -1,0 +1,770 @@
+src/ordered_array.c: In function 'create_ordered_array':
+src/ordered_array.c:15:27: warning: implicit declaration of function 'kmalloc' [-Wimplicit-function-declaration]
+   15 |     to_ret.array = (void*)kmalloc(max_size*sizeof(type_t));
+      |                           ^~~~~~~
+src/ordered_array.c:16:5: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   16 |     memset(to_ret.array, 0, max_size*sizeof(type_t));
+      |     ^~~~~~
+src/ordered_array.c:6:1: note: 'memset' is defined in header '<string.h>'; did you forget to '#include <string.h>'?
+    5 | #include "ordered_array.h"
+  +++ |+#include <string.h>
+    6 | 
+src/ordered_array.c: In function 'destroy_ordered_array':
+src/ordered_array.c:36:5: warning: implicit declaration of function 'kfree' [-Wimplicit-function-declaration]
+   36 |     kfree(array->array);
+      |     ^~~~~
+src/cli.c: In function 'handle_command':
+src/cli.c:26:17: warning: pointer targets in passing argument 1 of 'strcmp' differ in signedness [-Wpointer-sign]
+   26 |     if (!strcmp(cmdbuf, "print_heap"))
+      |                 ^~~~~~
+      |                 |
+      |                 uint8_t * {aka unsigned char *}
+In file included from src/cli.c:7:
+include/string.h:21:19: note: expected 'const char *' but argument is of type 'uint8_t *' {aka 'unsigned char *'}
+   21 | extern int strcmp(const char *, const char *);
+      |                   ^~~~~~~~~~~~
+src/keyboard.c: In function 'keyboard_callback':
+src/keyboard.c:37:9: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+   37 |         return;
+      |         ^~~~~~
+src/keyboard.c:30:7: note: declared here
+   30 | isr_t keyboard_callback(registers_t *r)
+      |       ^~~~~~~~~~~~~~~~~
+src/keyboard.c:43:9: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+   43 |         return;
+      |         ^~~~~~
+src/keyboard.c:30:7: note: declared here
+   30 | isr_t keyboard_callback(registers_t *r)
+      |       ^~~~~~~~~~~~~~~~~
+src/keyboard.c:45:27: warning: 'return' with no value, in function returning non-void [-Wreturn-type]
+   45 |     else if (data & 0x80) return;
+      |                           ^~~~~~
+src/keyboard.c:30:7: note: declared here
+   30 | isr_t keyboard_callback(registers_t *r)
+      |       ^~~~~~~~~~~~~~~~~
+src/keyboard.c:30:38: warning: unused parameter 'r' [-Wunused-parameter]
+   30 | isr_t keyboard_callback(registers_t *r)
+      |                         ~~~~~~~~~~~~~^
+src/keyboard.c: In function 'initialise_keyboard':
+src/keyboard.c:54:38: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+   54 |     register_interrupt_handler(IRQ1, keyboard_callback);
+      |                                      ^~~~~~~~~~~~~~~~~
+      |                                      |
+      |                                      void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/keyboard.c:2:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/task.c: In function 'switch_task':
+src/task.c:140:2: warning: implicit declaration of function 'set_kernel_stack' [-Wimplicit-function-declaration]
+  140 |  set_kernel_stack(current_task->kernel_stack+KERNEL_STACK_SIZE);
+      |  ^~~~~~~~~~~~~~~~
+In file included from include/initrd.h:4,
+                 from src/initrd.c:1:
+include/vfs.h:14:40: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   14 | typedef uint32_t (*read_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*);
+      |                                        ^~~~~~~
+include/vfs.h:15:41: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   15 | typedef uint32_t (*write_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*);
+      |                                         ^~~~~~~
+include/vfs.h:16:36: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   16 | typedef void (*open_type_t)(struct fs_node*);
+      |                                    ^~~~~~~
+include/vfs.h:17:37: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   17 | typedef void (*close_type_t)(struct fs_node*);
+      |                                     ^~~~~~~
+include/vfs.h:18:50: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   18 | typedef struct dirent * (*readdir_type_t)(struct fs_node*,uint32_t);
+      |                                                  ^~~~~~~
+src/initrd.c: In function 'initrd_readdir':
+src/initrd.c:35:17: warning: comparison of integer expressions of different signedness: 'long unsigned int' and 'int' [-Wsign-compare]
+   35 |     if (index-1 >= nroot_nodes)
+      |                 ^~
+src/initrd.c: In function 'initialise_initrd':
+src/initrd.c:69:26: warning: assignment to 'readdir_type_t' {aka 'struct dirent * (*)(struct fs_node *, long unsigned int)'} from incompatible pointer type 'struct dirent * (*)(fs_node_t *, uint32_t)' {aka 'struct dirent * (*)(struct fs_node *, long unsigned int)'} [-Wincompatible-pointer-types]
+   69 |     initrd_root->readdir = &initrd_readdir;
+      |                          ^
+src/initrd.c:82:25: warning: assignment to 'readdir_type_t' {aka 'struct dirent * (*)(struct fs_node *, long unsigned int)'} from incompatible pointer type 'struct dirent * (*)(fs_node_t *, uint32_t)' {aka 'struct dirent * (*)(struct fs_node *, long unsigned int)'} [-Wincompatible-pointer-types]
+   82 |     initrd_dev->readdir = &initrd_readdir;
+      |                         ^
+src/initrd.c:94:19: warning: comparison of integer expressions of different signedness: 'int' and 'uint32_t' {aka 'long unsigned int'} [-Wsign-compare]
+   94 |     for (i = 0; i < initrd_header->nfiles; i++)
+      |                   ^
+src/initrd.c:98:36: warning: passing argument 2 of 'strcpy' from incompatible pointer type [-Wincompatible-pointer-types]
+   98 |         strcpy(root_nodes[i].name, &file_headers[i].name);
+      |                                    ^~~~~~~~~~~~~~~~~~~~~
+      |                                    |
+      |                                    sint8_t (*)[64] {aka signed char (*)[64]}
+In file included from src/initrd.c:2:
+include/string.h:20:14: note: expected 'const char *' but argument is of type 'sint8_t (*)[64]' {aka 'signed char (*)[64]'}
+   20 | extern char *strcpy(char *, const char *);
+      |              ^~~~~~
+src/initrd.c:103:28: warning: assignment to 'read_type_t' {aka 'long unsigned int (*)(struct fs_node *, long unsigned int,  long unsigned int,  unsigned char *)'} from incompatible pointer type 'uint32_t (*)(fs_node_t *, uint32_t,  uint32_t,  uint8_t *)' {aka 'long unsigned int (*)(struct fs_node *, long unsigned int,  long unsigned int,  unsigned char *)'} [-Wincompatible-pointer-types]
+  103 |         root_nodes[i].read = &initrd_read;
+      |                            ^
+In file included from src/vfs.c:1:
+include/vfs.h:14:40: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   14 | typedef uint32_t (*read_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*);
+      |                                        ^~~~~~~
+include/vfs.h:15:41: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   15 | typedef uint32_t (*write_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*);
+      |                                         ^~~~~~~
+include/vfs.h:16:36: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   16 | typedef void (*open_type_t)(struct fs_node*);
+      |                                    ^~~~~~~
+include/vfs.h:17:37: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   17 | typedef void (*close_type_t)(struct fs_node*);
+      |                                     ^~~~~~~
+include/vfs.h:18:50: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   18 | typedef struct dirent * (*readdir_type_t)(struct fs_node*,uint32_t);
+      |                                                  ^~~~~~~
+src/vfs.c: In function 'read_fs':
+src/vfs.c:11:27: warning: passing argument 1 of 'node->read' from incompatible pointer type [-Wincompatible-pointer-types]
+   11 |         return node->read(node, offset, size, buffer);
+      |                           ^~~~
+      |                           |
+      |                           fs_node_t * {aka struct fs_node *}
+src/vfs.c:11:27: note: expected 'struct fs_node *' but argument is of type 'fs_node_t *' {aka 'struct fs_node *'}
+src/vfs.c: In function 'write_fs':
+src/vfs.c:19:28: warning: passing argument 1 of 'node->write' from incompatible pointer type [-Wincompatible-pointer-types]
+   19 |         return node->write(node, offset, size, buffer);
+      |                            ^~~~
+      |                            |
+      |                            fs_node_t * {aka struct fs_node *}
+src/vfs.c:19:28: note: expected 'struct fs_node *' but argument is of type 'fs_node_t *' {aka 'struct fs_node *'}
+src/vfs.c: In function 'open_fs':
+src/vfs.c:27:27: warning: passing argument 1 of 'node->open' from incompatible pointer type [-Wincompatible-pointer-types]
+   27 |         return node->open(node);
+      |                           ^~~~
+      |                           |
+      |                           fs_node_t * {aka struct fs_node *}
+src/vfs.c:27:27: note: expected 'struct fs_node *' but argument is of type 'fs_node_t *' {aka 'struct fs_node *'}
+src/vfs.c:24:39: warning: unused parameter 'read' [-Wunused-parameter]
+   24 | void open_fs(fs_node_t *node, uint8_t read, uint8_t write)
+      |                               ~~~~~~~~^~~~
+src/vfs.c:24:53: warning: unused parameter 'write' [-Wunused-parameter]
+   24 | void open_fs(fs_node_t *node, uint8_t read, uint8_t write)
+      |                                             ~~~~~~~~^~~~~
+src/vfs.c: In function 'close_fs':
+src/vfs.c:33:28: warning: passing argument 1 of 'node->close' from incompatible pointer type [-Wincompatible-pointer-types]
+   33 |         return node->close(node);
+      |                            ^~~~
+      |                            |
+      |                            fs_node_t * {aka struct fs_node *}
+src/vfs.c:33:28: note: expected 'struct fs_node *' but argument is of type 'fs_node_t *' {aka 'struct fs_node *'}
+src/vfs.c: In function 'readdir_fs':
+src/vfs.c:40:30: warning: passing argument 1 of 'node->readdir' from incompatible pointer type [-Wincompatible-pointer-types]
+   40 |         return node->readdir(node, index);
+      |                              ^~~~
+      |                              |
+      |                              fs_node_t * {aka struct fs_node *}
+src/vfs.c:40:30: note: expected 'struct fs_node *' but argument is of type 'fs_node_t *' {aka 'struct fs_node *'}
+src/vfs.c: In function 'list_vfs':
+src/vfs.c:84:42: warning: pointer targets in passing argument 4 of 'read_fs' differ in signedness [-Wpointer-sign]
+   84 |    uint32_t sz = read_fs(fsnode, 0, 256, buf);
+      |                                          ^~~
+      |                                          |
+      |                                          char *
+src/vfs.c:8:76: note: expected 'uint8_t *' {aka 'unsigned char *'} but argument is of type 'char *'
+    8 | uint32_t read_fs(fs_node_t *node, uint32_t offset, uint32_t size, uint8_t *buffer)
+      |                                                                   ~~~~~~~~~^~~~~~
+src/vfs.c:86:18: warning: comparison of integer expressions of different signedness: 'int' and 'uint32_t' {aka 'long unsigned int'} [-Wsign-compare]
+   86 |    for (j = 0; j < sz; j++)
+      |                  ^
+src/vfs.c:57:10: warning: variable 'a' set but not used [-Wunused-but-set-variable]
+   57 |  uint8_t a[0x1000];
+      |          ^
+src/stack.c: In function 'stack_trace':
+src/stack.c:16:20: warning: comparison of integer expressions of different signedness: 'int' and 'uint32_t' {aka 'long unsigned int'} [-Wsign-compare]
+   16 |  for (int i = 0; i < max_frames; i++)
+      |                    ^
+src/stack.c:19:3: warning: value computed is not used [-Wunused-value]
+   19 |   *data++;
+      |   ^~~~~~~
+src/kheap.c:8:30: warning: initialization of 'uint32_t' {aka 'long unsigned int'} from 'uint32_t *' {aka 'long unsigned int *'} makes integer from pointer without a cast [-Wint-conversion]
+    8 | uint32_t placement_address = &kernel_end;
+      |                              ^
+src/kheap.c: In function 'expand':
+src/kheap.c:82:17: warning: suggest parentheses around comparison in operand of '&' [-Wparentheses]
+   82 |     if (new_size&0xFFFFF000 != 0)
+      |                 ^
+src/kheap.c: In function 'contract':
+src/kheap.c:124:9: warning: implicit declaration of function 'free_frame' [-Wimplicit-function-declaration]
+  124 |         free_frame(get_page(heap->start_address+i, 0, kernel_directory));
+      |         ^~~~~~~~~~
+src/kheap.c: In function 'find_smallest_hole':
+src/kheap.c:145:26: warning: suggest parentheses around '+' in operand of '&' [-Wparentheses]
+  145 |             if ((location+sizeof(header_t) & 0xFFFFF000) != 0)
+      |                  ~~~~~~~~^~~~~~~~~~~~~~~~~
+src/kheap.c: In function 'create_heap':
+src/kheap.c:183:15: warning: suggest parentheses around comparison in operand of '&' [-Wparentheses]
+  183 |     if (start & 0xFFFFF000 != 0)
+      |               ^
+src/kheap.c: In function 'alloc':
+src/kheap.c:227:25: warning: comparison of integer expressions of different signedness: 'sint32_t' {aka 'long int'} and 'uint32_t' {aka 'long unsigned int'} [-Wsign-compare]
+  227 |         while (iterator < heap->index.size)
+      |                         ^
+src/kheap.c:239:17: warning: comparison of integer expressions of different signedness: 'uint32_t' {aka 'long unsigned int'} and 'int' [-Wsign-compare]
+  239 |         if (idx == -1)
+      |                 ^~
+src/gdt.c: In function 'write_tss':
+src/gdt.c:41:2: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+   41 |  memset(&tss_entry, 0, sizeof(tss_entry));
+      |  ^~~~~~
+src/gdt.c:2:1: note: 'memset' is defined in header '<string.h>'; did you forget to '#include <string.h>'?
+    1 | #include "gdt.h"
+  +++ |+#include <string.h>
+    2 | 
+src/page.c: In function 'initialise_paging':
+src/page.c:120:5: warning: implicit declaration of function 'memset' [-Wimplicit-function-declaration]
+  120 |     memset(frames, 0, INDEX_FROM_BIT(nframes));
+      |     ^~~~~~
+src/page.c:9:1: note: 'memset' is defined in header '<string.h>'; did you forget to '#include <string.h>'?
+    8 | #include "common.h"
+  +++ |+#include <string.h>
+    9 | 
+src/page.c:134:29: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+  134 |     for (i = KHEAP_START; i < KHEAP_START+KHEAP_INITIAL_SIZE; i += 0x1000)
+      |                             ^
+src/page.c:147:14: warning: comparison of integer expressions of different signedness: 'int' and 'long unsigned int' [-Wsign-compare]
+  147 |     while (i < placement_address+0x1000)
+      |              ^
+src/page.c:155:29: warning: comparison of integer expressions of different signedness: 'int' and 'unsigned int' [-Wsign-compare]
+  155 |     for (i = KHEAP_START; i < KHEAP_START+KHEAP_INITIAL_SIZE; i += 0x1000)
+      |                             ^
+src/page.c:123:14: warning: unused variable 'phys' [-Wunused-variable]
+  123 |     uint32_t phys;
+      |              ^~~~
+src/page.c: In function 'page_fault':
+src/page.c:220:9: warning: unused variable 'id' [-Wunused-variable]
+  220 |     int id = regs->err_code & 0x10;          // Caused by an instruction fetch?
+      |         ^~
+src/page.c: In function 'clone_table':
+src/page.c:267:13: warning: implicit declaration of function 'copy_page_physical' [-Wimplicit-function-declaration]
+  267 |             copy_page_physical(src->pages[i].frame*0x1000, table->pages[i].frame*0x1000);
+      |             ^~~~~~~~~~~~~~~~~~
+src/page.c: In function 'first_frame':
+src/page.c:73:1: warning: control reaches end of non-void function [-Wreturn-type]
+   73 | }
+      | ^
+At top level:
+src/page.c:46:17: warning: 'test_frame' defined but not used [-Wunused-function]
+   46 | static uint32_t test_frame(uint32_t frame_addr)
+      |                 ^~~~~~~~~~
+src/pit.c: In function 'pit_callback':
+src/pit.c:11:33: warning: unused parameter 'r' [-Wunused-parameter]
+   11 | isr_t pit_callback(registers_t *r)
+      |                    ~~~~~~~~~~~~~^
+src/pit.c: In function 'init_pit':
+src/pit.c:28:35: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+   28 |  register_interrupt_handler(IRQ0, pit_callback);
+      |                                   ^~~~~~~~~~~~
+      |                                   |
+      |                                   void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/pit.c:2:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/pit.c: In function 'pit_callback':
+src/pit.c:15:1: warning: control reaches end of non-void function [-Wreturn-type]
+   15 | }
+      | ^
+src/isr.c: In function 'isr_init':
+src/isr.c:200:32: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  200 |  register_interrupt_handler(0, exc_divide_by_zero);
+      |                                ^~~~~~~~~~~~~~~~~~
+      |                                |
+      |                                void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:201:32: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  201 |  register_interrupt_handler(1, exc_debug);
+      |                                ^~~~~~~~~
+      |                                |
+      |                                void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:202:32: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  202 |  register_interrupt_handler(2, exc_breakpoint);
+      |                                ^~~~~~~~~~~~~~
+      |                                |
+      |                                void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:203:32: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  203 |  register_interrupt_handler(3, exc_non_maskable_interrupt);
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                |
+      |                                void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:204:32: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  204 |  register_interrupt_handler(4, exc_into_detected_overflow);
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                |
+      |                                void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:205:32: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  205 |  register_interrupt_handler(5, exc_out_of_bounds);
+      |                                ^~~~~~~~~~~~~~~~~
+      |                                |
+      |                                void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:206:32: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  206 |  register_interrupt_handler(6, exc_invalid_opcode);
+      |                                ^~~~~~~~~~~~~~~~~~
+      |                                |
+      |                                void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:207:32: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  207 |  register_interrupt_handler(7, exc_no_coprocessor);
+      |                                ^~~~~~~~~~~~~~~~~~
+      |                                |
+      |                                void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:208:32: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  208 |  register_interrupt_handler(8, exc_double_fault);
+      |                                ^~~~~~~~~~~~~~~~
+      |                                |
+      |                                void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:209:32: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  209 |  register_interrupt_handler(9, exc_coprocessor_segment_overrun);
+      |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                |
+      |                                void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:210:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  210 |  register_interrupt_handler(10, exc_invalid_tss);
+      |                                 ^~~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:211:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  211 |  register_interrupt_handler(11, exc_segment_not_present);
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:212:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  212 |  register_interrupt_handler(12, exc_stack_fault);
+      |                                 ^~~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:213:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  213 |  register_interrupt_handler(13, exc_general_protection_fault);
+      |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:214:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  214 |  register_interrupt_handler(14, exc_page_fault);
+      |                                 ^~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:215:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  215 |  register_interrupt_handler(15, exc_unknown);
+      |                                 ^~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:216:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  216 |  register_interrupt_handler(16, exc_coprocessor_fault);
+      |                                 ^~~~~~~~~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:217:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  217 |  register_interrupt_handler(17, exc_alignment_check);
+      |                                 ^~~~~~~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:218:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  218 |  register_interrupt_handler(18, exc_machine_check);
+      |                                 ^~~~~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:219:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  219 |  register_interrupt_handler(19, exc_reserved_1);
+      |                                 ^~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:220:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  220 |  register_interrupt_handler(20, exc_reserved_2);
+      |                                 ^~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:221:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  221 |  register_interrupt_handler(21, exc_reserved_3);
+      |                                 ^~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:222:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  222 |  register_interrupt_handler(22, exc_reserved_4);
+      |                                 ^~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:223:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  223 |  register_interrupt_handler(23, exc_reserved_5);
+      |                                 ^~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:224:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  224 |  register_interrupt_handler(24, exc_reserved_6);
+      |                                 ^~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:225:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  225 |  register_interrupt_handler(25, exc_reserved_7);
+      |                                 ^~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:226:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  226 |  register_interrupt_handler(26, exc_reserved_8);
+      |                                 ^~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:227:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  227 |  register_interrupt_handler(27, exc_reserved_9);
+      |                                 ^~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:228:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  228 |  register_interrupt_handler(28, exc_reserved_10);
+      |                                 ^~~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:229:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  229 |  register_interrupt_handler(29, exc_reserved_11);
+      |                                 ^~~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:230:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  230 |  register_interrupt_handler(30, exc_reserved_11);
+      |                                 ^~~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/isr.c:231:33: warning: passing argument 2 of 'register_interrupt_handler' from incompatible pointer type [-Wincompatible-pointer-types]
+  231 |  register_interrupt_handler(31, exc_reserved_12);
+      |                                 ^~~~~~~~~~~~~~~
+      |                                 |
+      |                                 void (* (*)(registers_t *))(registers_t *) {aka void (* (*)(struct <anonymous> *))(struct <anonymous> *)}
+In file included from src/isr.c:1:
+include/isr.h:42:57: note: expected 'isr_t' {aka 'void (*)(struct <anonymous> *)'} but argument is of type 'void (* (*)(registers_t *))(registers_t *)' {aka 'void (* (*)(struct <anonymous> *))(struct <anonymous> *)'}
+   42 | extern void register_interrupt_handler(uint8_t n, isr_t handler);
+      |                                                   ~~~~~~^~~~~~~
+src/log.c: In function 'do_printl':
+src/log.c:152:24: warning: pointer targets in passing argument 1 of 'strlen' differ in signedness [-Wpointer-sign]
+  152 |     actual_wd = strlen(where);
+      |                        ^~~~~
+      |                        |
+      |                        unsigned char *
+In file included from src/log.c:4:
+include/string.h:17:22: note: expected 'const char *' but argument is of type 'unsigned char *'
+   17 | extern size_t strlen(const char*);
+      |                      ^~~~~~~~~~~
+src/log.c: In function 'vprintl_help':
+src/log.c:203:2: warning: implicit declaration of function 'log_int' [-Wimplicit-function-declaration]
+  203 |  log_int(c);
+      |  ^~~~~~~
+src/log.c:201:42: warning: unused parameter 'ptr' [-Wunused-parameter]
+  201 | int vprintl_help(unsigned char c, void **ptr)
+      |                                   ~~~~~~~^~~
+src/log.c: In function 'vprintl':
+src/log.c:209:30: warning: passing argument 3 of 'do_printl' from incompatible pointer type [-Wincompatible-pointer-types]
+  209 |  return do_printl(fmt, args, vprintl_help, NULL);
+      |                              ^~~~~~~~~~~~
+      |                              |
+      |                              int (*)(unsigned char,  void **)
+src/log.c:11:54: note: expected 'fnptr_t' {aka 'int (*)(char,  void **)'} but argument is of type 'int (*)(unsigned char,  void **)'
+   11 | int do_printl(const char *fmt, va_list args, fnptr_t fn, void *ptr)
+      |                                              ~~~~~~~~^~
+src/log.c: At top level:
+src/log.c:223:6: warning: conflicting types for 'log_int'
+  223 | void log_int(const char* c)
+      |      ^~~~~~~
+src/log.c:203:2: note: previous implicit declaration of 'log_int' was here
+  203 |  log_int(c);
+      |  ^~~~~~~
+src/log.c: In function 'log_int':
+src/log.c:225:13: warning: passing argument 2 of 'outb' makes integer from pointer without a cast [-Wint-conversion]
+  225 |  outb(COM1, c);
+      |             ^
+      |             |
+      |             const char *
+In file included from include/isr.h:5,
+                 from include/log.h:5,
+                 from src/log.c:1:
+include/serial.h:27:41: note: expected 'uint8_t' {aka 'unsigned char'} but argument is of type 'const char *'
+   27 | inline void outb(uint32_t port, uint8_t value)
+      |                                 ~~~~~~~~^~~~~
+In file included from include/terminal.h:6,
+                 from include/common.h:5,
+                 from src/log.c:5:
+src/log.c: In function 'do_printl':
+src/log.c:105:26: warning: 'short int' is promoted to 'int' when passed through '...'
+  105 |       num = va_arg(args, short);
+include/stdarg.h:5:52: note: in definition of macro 'va_arg'
+    5 | #define va_arg( ap, type ) ( __builtin_va_arg( ap, type ) )
+      |                                                    ^~~~
+src/log.c:105:26: note: (so you should pass 'int' not 'short int' to 'va_arg')
+  105 |       num = va_arg(args, short);
+include/stdarg.h:5:52: note: in definition of macro 'va_arg'
+    5 | #define va_arg( ap, type ) ( __builtin_va_arg( ap, type ) )
+      |                                                    ^~~~
+src/log.c:105:26: note: if this code is reached, the program will abort
+  105 |       num = va_arg(args, short);
+include/stdarg.h:5:52: note: in definition of macro 'va_arg'
+    5 | #define va_arg( ap, type ) ( __builtin_va_arg( ap, type ) )
+      |                                                    ^~~~
+src/log.c:107:26: warning: 'short unsigned int' is promoted to 'int' when passed through '...'
+  107 |       num = va_arg(args, unsigned short);
+include/stdarg.h:5:52: note: in definition of macro 'va_arg'
+    5 | #define va_arg( ap, type ) ( __builtin_va_arg( ap, type ) )
+      |                                                    ^~~~
+src/log.c:107:26: note: if this code is reached, the program will abort
+  107 |       num = va_arg(args, unsigned short);
+include/stdarg.h:5:52: note: in definition of macro 'va_arg'
+    5 | #define va_arg( ap, type ) ( __builtin_va_arg( ap, type ) )
+      |                                                    ^~~~
+src/log.c:144:14: warning: 'unsigned char' is promoted to 'int' when passed through '...'
+  144 |     *where = (unsigned char)va_arg(args,
+src/log.c:144:14: note: if this code is reached, the program will abort
+src/log.c:86:11: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   86 |     flags |= PR_CA;
+src/log.c:87:4: note: here
+   87 |    case 'x':
+      |    ^~~~
+src/log.c:94:11: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   94 |     flags |= PR_SG;
+src/log.c:95:4: note: here
+   95 |    case 'u':
+      |    ^~~~
+src/log.c:30:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   30 |    fmt++;
+      |    ~~~^~
+src/log.c:31:3: note: here
+   31 |   case 1:
+      |   ^~~~
+src/log.c:48:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   48 |    if(*fmt == '0')
+      |      ^
+src/log.c:53:3: note: here
+   53 |   case 2:
+      |   ^~~~
+src/log.c:60:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   60 |    state++;
+      |    ~~~~~^~
+src/log.c:61:3: note: here
+   61 |   case 3:
+      |   ^~~~
+src/log.c:79:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   79 |    state++;
+      |    ~~~~~^~
+src/log.c:80:3: note: here
+   80 |   case 4:
+      |   ^~~~
+src/log.c:83:4: warning: this statement may fall through [-Wimplicit-fallthrough=]
+   83 |    switch(*fmt)
+      |    ^~~~~~
+src/log.c:193:3: note: here
+  193 |   default:
+      |   ^~~~~~~
+src/log.c: In function 'reg_dump':
+src/log.c:260:1: warning: control reaches end of non-void function [-Wreturn-type]
+  260 | }
+      | ^
+src/string.c: In function 'strcat':
+src/string.c:11:12: warning: suggest parentheses around assignment used as truth value [-Wparentheses]
+   11 |     while (*dest++ = *src++);
+      |            ^
+src/terminal.c: In function 'update_cursor':
+src/terminal.c:39:1: warning: no return statement in function returning non-void [-Wreturn-type]
+   39 | }
+      | ^
+src/terminal.c: In function 'vprintk_help':
+src/terminal.c:326:42: warning: unused parameter 'ptr' [-Wunused-parameter]
+  326 | int vprintk_help(unsigned char c, void** ptr)
+      |                                   ~~~~~~~^~~
+src/terminal.c: In function 'vprintk':
+src/terminal.c:369:30: warning: passing argument 3 of 'do_printk' from incompatible pointer type [-Wincompatible-pointer-types]
+  369 |  return do_printk(fmt, args, vprintk_help, NULL);
+      |                              ^~~~~~~~~~~~
+      |                              |
+      |                              int (*)(unsigned char,  void **)
+src/terminal.c:136:54: note: expected 'fnptr_t' {aka 'int (*)(char,  void **)'} but argument is of type 'int (*)(unsigned char,  void **)'
+  136 | int do_printk(const char *fmt, va_list args, fnptr_t fn, void *ptr)
+      |                                              ~~~~~~~~^~
+src/terminal.c: In function 'do_printk':
+src/terminal.c:211:11: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  211 |     flags |= PR_CA;
+src/terminal.c:212:4: note: here
+  212 |    case 'x':
+      |    ^~~~
+src/terminal.c:219:11: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  219 |     flags |= PR_SG;
+src/terminal.c:220:4: note: here
+  220 |    case 'u':
+      |    ^~~~
+src/terminal.c:155:7: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  155 |    fmt++;
+      |    ~~~^~
+src/terminal.c:156:3: note: here
+  156 |   case 1:
+      |   ^~~~
+src/terminal.c:173:6: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  173 |    if(*fmt == '0')
+      |      ^
+src/terminal.c:178:3: note: here
+  178 |   case 2:
+      |   ^~~~
+src/terminal.c:185:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  185 |    state++;
+      |    ~~~~~^~
+src/terminal.c:186:3: note: here
+  186 |   case 3:
+      |   ^~~~
+src/terminal.c:204:9: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  204 |    state++;
+      |    ~~~~~^~
+src/terminal.c:205:3: note: here
+  205 |   case 4:
+      |   ^~~~
+src/terminal.c:208:4: warning: this statement may fall through [-Wimplicit-fallthrough=]
+  208 |    switch(*fmt)
+      |    ^~~~~~
+src/terminal.c:318:3: note: here
+  318 |   default:
+      |   ^~~~~~~
+In file included from src/kernel.c:16:
+include/vfs.h:14:40: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   14 | typedef uint32_t (*read_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*);
+      |                                        ^~~~~~~
+include/vfs.h:15:41: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   15 | typedef uint32_t (*write_type_t)(struct fs_node*,uint32_t,uint32_t,uint8_t*);
+      |                                         ^~~~~~~
+include/vfs.h:16:36: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   16 | typedef void (*open_type_t)(struct fs_node*);
+      |                                    ^~~~~~~
+include/vfs.h:17:37: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   17 | typedef void (*close_type_t)(struct fs_node*);
+      |                                     ^~~~~~~
+include/vfs.h:18:50: warning: 'struct fs_node' declared inside parameter list will not be visible outside of this definition or declaration
+   18 | typedef struct dirent * (*readdir_type_t)(struct fs_node*,uint32_t);
+      |                                                  ^~~~~~~
+src/kernel.c: In function 'kernel_main':
+src/kernel.c:68:15: warning: comparison of integer expressions of different signedness: 'int' and 'uint32_t' {aka 'long unsigned int'} [-Wsign-compare]
+   68 |  if (getpid() == parentpid) printf("Parent\n");
+      |               ^~
+src/kernel.c:68:29: warning: implicit declaration of function 'printf' [-Wimplicit-function-declaration]
+   68 |  if (getpid() == parentpid) printf("Parent\n");
+      |                             ^~~~~~
+src/kernel.c:21:1: note: 'printf' is defined in header '<stdio.h>'; did you forget to '#include <stdio.h>'?
+   20 | #include "cli.h"
+  +++ |+#include <stdio.h>
+   21 | #include "common.h"
